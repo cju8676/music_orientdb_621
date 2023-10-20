@@ -80,21 +80,51 @@ const boostrap = pool => {
       });
   });
 
-  // app.get("/insertallsongs", function(req, res) {
-  //   for(var i = 0; i < 1000; i++) {
-  //     const user = users[i];
-  //     res.locals.db
-  //       .command("insert into Users content " + JSON.stringify(user))
-  //       .all()
-  //       .then(messages => {
-  //         console.log(messages);
-  //       })
-  //       .catch(err => {
-  //         res.status(500).send(err);
-  //       });
-  //     console.log("USER", JSON.stringify(user));
-  //     }
-  // });
+  app.post("/friend/:user_in/user/:user_out", function(req, res) {
+    res.locals.db
+    //TODO: this might just able to be @RID each way
+      .command(
+        `create edge Friends from (select from Users where username = '${req.params.user_in}') to (select from Users where username = '${req.params.user_out}')`
+      )
+      .all()
+      .then(messages => {
+        res.send(messages);
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      });
+  });
+
+  app.post("/likeSong/:user_in/:song_out", function(req, res) {
+    res.locals.db
+    //TODO: might just be @RID each way
+      .command(
+        `create edge Likes from (select from Users where username = '${req.params.user_in}') to (select from Songs where @rid = '${req.params.song_out}')`
+      )
+      .all()
+      .then(messages => {
+        res.send(messages);
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      });
+  });
+
+  // get songs with titles containing searchTerm
+  app.get("/songs/:searchTerm", function(req, res) {
+    res.locals.db
+      .query(`select from Songs where title like '%${req.params.searchTerm}%'`)
+      .all()
+      .then(messages => {
+        console.log("messages", messages);
+        res.send(messages);
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      });
+  });
+
+
 
   // pool.acquire().then(session => {
   //   session.liveQuery(`select from User`).on("data", msg => {
