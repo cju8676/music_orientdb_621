@@ -1,17 +1,4 @@
-// import { React } from 'react';
-
-// export default function Song(props) {
-//     return (
-//         <div>
-//             <div>picture icon goes here</div>
-//             <h1>Song</h1>
-//             <p>Title</p>
-//             <p>Artist</p>
-//             <p>Extra cool things about song</p>
-//         </div>
-//     );
-// }
-import * as React from 'react';
+import { React, useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -30,6 +17,15 @@ const bull = (
 );
 
 export default function BasicCard() {
+
+  function getSongs() {
+    fetch('/users').then(response => response.json()).then(data => console.log(data));
+  }
+
+  useEffect(() => {
+    getSongs();
+  }, []);
+
   return (
     <Card sx={{ minWidth: 275, minHeight: 400 }}>
       <CardContent>

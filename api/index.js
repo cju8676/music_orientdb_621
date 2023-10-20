@@ -1,7 +1,7 @@
 const app = require("express")();
 const http = require("http").Server(app);
 const io = require("socket.io")(http);
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 const OrientDBClient = require("orientjs").OrientDBClient;
 
 const client = new OrientDBClient({
@@ -44,6 +44,34 @@ const boostrap = pool => {
         res.status(500).send(err);
       });
   });
+
+  app.get("/songs", function(req, res) {
+    res.locals.db
+      .query("select from User")
+      .all()
+      .then(messages => {
+        res.send(messages);
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      });
+  });
+
+  // app.get("/insertallsongs", function(req, res) {
+  //   for(var i = 0; i < 1000; i++) {
+  //     const user = users[i];
+  //     res.locals.db
+  //       .command("insert into User content " + JSON.stringify(user))
+  //       .all()
+  //       .then(messages => {
+  //         console.log(messages);
+  //       })
+  //       .catch(err => {
+  //         res.status(500).send(err);
+  //       });
+  //     console.log("USER", JSON.stringify(user));
+  //     }
+  // });
 
   // pool.acquire().then(session => {
   //   session.liveQuery(`select from User`).on("data", msg => {
