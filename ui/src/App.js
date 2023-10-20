@@ -5,6 +5,7 @@ import User from './User';
 import SimilarSong from './SimilarSong';
 import Search from './Search';
 import { Paper } from '@mui/material';
+import NavBar from './NavBar';
 
 function App() {
   const [likes, setLikes] = useState([]);
@@ -19,9 +20,7 @@ function App() {
 
   return (
     <div>
-      <div className='search-bar'>
-        <Search />
-      </div>
+      <NavBar />
       <div className="info-page">
         <Paper className="info">
           <Song />

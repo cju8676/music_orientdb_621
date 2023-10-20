@@ -9,7 +9,7 @@ export default function SimilarSong() {
                 <Box sx={{ display: "flex", justifyContent: "space-between"}}>
 
                 <Box sx={{ p: 2, display: "flex" }}>
-                    <Avatar variant="rounded" sx={{ width: 56, height: 56}}/>
+                    <Avatar variant="rounded" src={process.env.PUBLIC_URL + '/music.png'} sx={{ width: 56, height: 56}}/>
                     <Box sx={{ ml: 2, alignItems: "center" }}>
                         <Typography fontWeight={700} >
                             Song Title
