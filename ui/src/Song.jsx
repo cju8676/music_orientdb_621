@@ -17,14 +17,21 @@ const bull = (
 );
 
 export default function BasicCard() {
+  const [song, setSong] = useState({});
 
-  function getSongs() {
-    fetch('/users').then(response => response.json()).then(data => console.log(data));
+  function getSong() {
+    fetch('/onesong')
+      .then(response => response.json())
+      .then(data => setSong(data[0]));
   }
 
   useEffect(() => {
-    getSongs();
+    getSong();
   }, []);
+
+  useEffect(() => {
+    console.log(song);
+  }, [song]);
 
   return (
     <Card sx={{ minWidth: 275, minHeight: 400 }}>
@@ -33,13 +40,14 @@ export default function BasicCard() {
           Song
         </Typography>
         <Typography variant="h5" component="div">
-          Eye of the Tiger
+          {song.title}
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          Survivor
+          {song.artist}
         </Typography>
         <Typography variant="body2">
-            Extra cool things about song like genre, length, etc.
+            {song.album}
+            {song.year}
         </Typography>
         <Avatar variant="rounded" src={process.env.PUBLIC_URL + '/music.png'} sx={{ width: 56, height: 56}}/>
       </CardContent>

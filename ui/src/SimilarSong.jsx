@@ -1,7 +1,7 @@
 import { React } from "react";
 import { Avatar, Box, Card, Typography } from "@mui/material";
 
-export default function Players() {
+export default function SimilarSong() {
 
     return (
         <Box key={0} p={1}>

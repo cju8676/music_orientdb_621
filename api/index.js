@@ -35,7 +35,7 @@ const boostrap = pool => {
 
   app.get("/users", function(req, res) {
     res.locals.db
-      .query("select from User")
+      .query("select from Users")
       .all()
       .then(messages => {
         res.send(messages);
@@ -47,7 +47,30 @@ const boostrap = pool => {
 
   app.get("/songs", function(req, res) {
     res.locals.db
-      .query("select from User")
+      .query("select from Users")
+      .all()
+      .then(messages => {
+        res.send(messages);
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      });
+  });
+
+  app.get("/onesong", function(req, res) {
+    res.locals.db
+      .query("select from Songs where artist = 'Johnny Cash' and title = 'Ring of Fire'")
+      .all()
+      .then(messages => {
+        res.send(messages);
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      });
+  });
+  app.get("/onelikes", function(req, res) {
+    res.locals.db
+      .query("SELECT expand(in('Likes')) FROM #62:7")
       .all()
       .then(messages => {
         res.send(messages);
@@ -61,7 +84,7 @@ const boostrap = pool => {
   //   for(var i = 0; i < 1000; i++) {
   //     const user = users[i];
   //     res.locals.db
-  //       .command("insert into User content " + JSON.stringify(user))
+  //       .command("insert into Users content " + JSON.stringify(user))
   //       .all()
   //       .then(messages => {
   //         console.log(messages);

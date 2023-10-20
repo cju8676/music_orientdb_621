@@ -1,31 +1,45 @@
 import './App.css';
+import {React, useState, useEffect} from 'react';
 import Song from './Song';
 import User from './User';
 import SimilarSong from './SimilarSong';
 import Search from './Search';
+import { Paper } from '@mui/material';
 
 function App() {
+  const [likes, setLikes] = useState([]);
+
+  useEffect(() => {
+    fetch("/onelikes")
+      .then(res => res.json())
+      .then(data => {
+        setLikes(data);
+      });
+  }, []);
+
   return (
     <div>
-      <Search />
+      <div className='search-bar'>
+        <Search />
+      </div>
       <div className="info-page">
-        <div className="info">
+        <Paper className="info">
           <Song />
-        </div>
+        </Paper>
         <div className="lists">
           {/* Right side: Two Lists */}
-          <div className="list">
+          <Paper className='list'>
             <h3>Liked By</h3>
-            <User />
-            <User />
-            <User />
-          </div>
-          <div className="list">
+            {likes.map(user => {
+              return <User key={user['@rid']} user={user} />;
+            })}
+          </Paper>
+          <Paper className="list">
             <h3>Similar Songs</h3>
             <SimilarSong />
             <SimilarSong />
             <SimilarSong />
-          </div>
+          </Paper>
         </div>
       </div>
     </div>
