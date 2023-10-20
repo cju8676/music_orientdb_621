@@ -16,23 +16,7 @@ const bull = (
   </Box>
 );
 
-export default function BasicCard() {
-  const [song, setSong] = useState({});
-
-  function getSong() {
-    fetch('/onesong')
-      .then(response => response.json())
-      .then(data => setSong(data[0]));
-  }
-
-  useEffect(() => {
-    getSong();
-  }, []);
-
-  useEffect(() => {
-    console.log(song);
-  }, [song]);
-
+export default function Song({ song }) {
   return (
     <Card sx={{ minWidth: 275, minHeight: 400 }}>
       <CardContent>
