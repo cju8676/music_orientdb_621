@@ -5,7 +5,6 @@ import User from '../User';
 import SimilarSong from '../SimilarSong';
 import Search from '../SearchBar';
 import { Paper } from '@mui/material';
-import NavBar from '../NavBar';
 import { SongContext } from '../SongContext';
 
 function App() {
@@ -39,7 +38,6 @@ function App() {
   return (
     <div>
       <SongContext.Provider value={{ song, setSong }}>
-        <NavBar />
         <div className="info-page">
           <Paper className="info">
             <Song song={song}/>

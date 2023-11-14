@@ -6,6 +6,7 @@ import Profile from './pages/Profile';
 import Search from './pages/Search';
 import SongPage from './pages/SongPage';
 import NavBar from './NavBar';
+import Library from './pages/Library';
 
 
 export default function PageHandle() {
@@ -20,6 +21,7 @@ export default function PageHandle() {
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/search" element={<Search />} />
                     <Route path="/song" element={<SongPage />} />
+                    <Route path="/library" element={<Library />} />
                     <Route
                         path="*"
                         element={<Navigate to="/" replace />}
