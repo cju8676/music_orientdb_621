@@ -12,7 +12,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { SvgIcon } from "@mui/material";
-import Search from "./Search";
+import Search from "./SearchBar";
 
 const pages = ["Home", "Games", "Players", "Stats"];
 const settings = ["Profile", "Logout"];

@@ -35,7 +35,7 @@ const boostrap = pool => {
 
   app.get("/users", function(req, res) {
     res.locals.db
-      .query("select from Users")
+      .query("select from User")
       .all()
       .then(messages => {
         res.send(messages);
@@ -47,7 +47,7 @@ const boostrap = pool => {
 
   app.get("/songs", function(req, res) {
     res.locals.db
-      .query("select from Users")
+      .query("select from User")
       .all()
       .then(messages => {
         res.send(messages);
@@ -59,7 +59,7 @@ const boostrap = pool => {
 
   app.get("/onesong", function(req, res) {
     res.locals.db
-      .query("select from Songs where artist = 'Johnny Cash' and title = 'Ring of Fire'")
+      .query("select from Song where artist = 'Johnny Cash' and title = 'Ring of Fire'")
       .all()
       .then(messages => {
         res.send(messages);
@@ -84,7 +84,7 @@ const boostrap = pool => {
     res.locals.db
     //TODO: this might just able to be @RID each way
       .command(
-        `create edge Friends from (select from Users where username = '${req.params.user_in}') to (select from Users where username = '${req.params.user_out}')`
+        `create edge Friends from (select from User where username = '${req.params.user_in}') to (select from User where username = '${req.params.user_out}')`
       )
       .all()
       .then(messages => {
@@ -99,7 +99,7 @@ const boostrap = pool => {
     res.locals.db
     //TODO: might just be @RID each way
       .command(
-        `create edge Likes from (select from Users where username = '${req.params.user_in}') to (select from Songs where @rid = '${req.params.song_out}')`
+        `create edge Likes from (select from User where username = '${req.params.user_in}') to (select from Song where @rid = '${req.params.song_out}')`
       )
       .all()
       .then(messages => {
@@ -113,7 +113,7 @@ const boostrap = pool => {
   // get songs with titles containing searchTerm
   app.get("/songs/:searchTerm", function(req, res) {
     res.locals.db
-      .query(`select from Songs where title like '%${req.params.searchTerm}%'`)
+      .query(`select from Song where title like '%${req.params.searchTerm}%'`)
       .all()
       .then(messages => {
         console.log("messages", messages);

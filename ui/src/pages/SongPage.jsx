@@ -1,12 +1,12 @@
-import './App.css';
+import '../App.css';
 import {React, useState, useEffect} from 'react';
-import Song from './Song';
-import User from './User';
-import SimilarSong from './SimilarSong';
-import Search from './Search';
+import Song from '../Song';
+import User from '../User';
+import SimilarSong from '../SimilarSong';
+import Search from '../SearchBar';
 import { Paper } from '@mui/material';
-import NavBar from './NavBar';
-import { SongContext } from './SongContext';
+import NavBar from '../NavBar';
+import { SongContext } from '../SongContext';
 
 function App() {
   const [likes, setLikes] = useState([]);
