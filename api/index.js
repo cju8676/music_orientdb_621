@@ -146,7 +146,7 @@ client
   .connect()
   .then(() => {
     return client.sessions({
-      name: "music",
+      name: "music621",
       username: "root",
       password: "root",
       pool: {
