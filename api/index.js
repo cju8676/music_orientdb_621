@@ -244,6 +244,22 @@ const boostrap = pool => {
     }
   );
 
+  // follow a user
+  app.post("/addFriend/:user_in/:user_out", function(req, res) {
+    res.locals.db
+      .command(
+        `create edge Friends from (select from User where username = '${req.params.user_in}') to (select from User where username = '${req.params.user_out}')`
+      )
+      .all()
+      .then(messages => {
+        res.send(messages);
+      })
+      .catch(err => {
+        res.status(500).send(err);
+        console.log(err);
+      });
+  });
+
   // pool.acquire().then(session => {
   //   session.liveQuery(`select from User`).on("data", msg => {
 

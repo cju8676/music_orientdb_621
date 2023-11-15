@@ -6,13 +6,14 @@ import FriendCard from '../FriendCard';
 
 export default function Profile({ rid }) {
     const { currentUser } = useContext(UserContext);
+
     const [user, setUser] = useState({})
     const [friends, setFriends] = useState([]);
 
     useEffect(() => {
         getUser();
         getFriends();
-    }, []);
+    }, [rid]);
 
     function logout() {
         localStorage.removeItem('user');
@@ -47,6 +48,9 @@ export default function Profile({ rid }) {
                         </Grid>
                         <Grid item xs={3}>
                             {currentUser['@rid'] === user['@rid'] && <Button variant="contained" color="secondary" onClick={logout}>Logout</Button>}
+                            {currentUser['@rid'] !== user['@rid'] &&
+                                <Button variant="contained" color="success">Follow</Button>
+                            }
                         </Grid>
                     </Grid>
 
