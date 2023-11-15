@@ -50,25 +50,7 @@ export default function NavBar() {
     return (
         <AppBar position="sticky" /*sx={{ background: '#F5F5F5', color: '#F05454' }}*/>
             <Container maxWidth="xl">
-                <Toolbar disableGutters>
-                    <SvgIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="a"
-                        href="/"
-                        sx={{
-                            mr: 2,
-                            display: { xs: "none", md: "flex" },
-                            fontFamily: "monospace",
-                            fontWeight: 700,
-                            // letterSpacing: ".3rem",
-                            color: "inherit",
-                            textDecoration: "none",
-                        }}
-                    >
-                        Tuned In
-                    </Typography>
+                <Toolbar disableGutters sx={{justifyContent: 'space-between'}}>
                     <Typography
                         variant="h5"
                         noWrap
@@ -76,7 +58,7 @@ export default function NavBar() {
                         href="/"
                         sx={{
                             mr: 2,
-                            display: { xs: "flex", md: "none" },
+                            display: { xs: "flex", md: "flex" },
                             fontFamily: "monospace",
                             fontWeight: 700,
                             color: "inherit",
@@ -85,7 +67,7 @@ export default function NavBar() {
                     >
                         Tuned In
                     </Typography>
-                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                    <Box sx={{ display: { xs: 'flex', md: 'flex' } }}>
                         <Button variant="raised" color="primary" className="nav-button" id="home" onClick={handleCloseNavMenu}>
                                 <HomeIcon />
                             Home
@@ -98,15 +80,15 @@ export default function NavBar() {
                                 <LibraryMusicIcon />
                             Library
                         </Button>
+                        <Button variant="raised" color="primary" className="nav-button" id="profile"onClick={handleCloseNavMenu}>
+                            <Avatar
+                                src={"https://robohash.org/" + currentUser?.username}
+                                alt={currentUser?.username}
+                                // sx={{ width: 48, height: 48 }}
+                            />
+                            {currentUser?.username}
+                        </Button>
                     </Box>
-                    <Button variant="raised" color="primary" className="nav-button" id="profile"onClick={handleCloseNavMenu}>
-                        <Avatar
-                            src={"https://robohash.org/" + currentUser?.username}
-                            alt={currentUser?.username}
-                            // sx={{ width: 48, height: 48 }}
-                        />
-                        {currentUser?.username}
-                    </Button>
                 </Toolbar>
             </Container>
         </AppBar>
