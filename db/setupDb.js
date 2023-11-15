@@ -48,6 +48,32 @@ function populateSongNodes(session) {
     console.log("Inserted Songs!")
 }
 
+function populateFriendsEdges(session) {
+    // populate each user with 5 friends
+    for (i = 0; i < users.length ; i++) {
+      for (j = 0; j < 5; j++) {
+            var randomFriend = users[Math.floor(Math.random()*users.length)];
+            if (randomFriend.username === users[i].username) {
+                j--;
+                continue;
+            }
+            session.command(`CREATE EDGE Friends FROM (select from User where username = '${users[i].username}') to (select from User where username = '${randomFriend.username}')`)
+            .all().then(m => console.log("Created Friends Edge!")).catch(err => console.log(err));
+          }
+    }
+}
+
+function populateLikesEdges(session) {
+  // have each user like 5 songs
+  for (i = 0; i < users.length ; i++) {
+    for (j = 0; j < 5; j++) {
+          var randomSong = songs.songs[Math.floor(Math.random()*songs.songs.length)];
+          session.command(`CREATE EDGE Likes FROM (select from User where username = '${users[i].username}') to (select from Song where title = '${randomSong.title}')`)
+          .all().then(m => console.log("Created Likes Edge!")).catch(err => console.log(err));
+        }
+  }
+}
+
 client
   .connect()
   .then(() => {
@@ -64,9 +90,11 @@ client
     pool
       .acquire()
       .then(session => {
-        createNodesAndEdges(session);
-        populateUserNodes(session);
-        populateSongNodes(session);
+        // createNodesAndEdges(session);
+        // populateUserNodes(session);
+        // populateSongNodes(session);
+        // populateFriendsEdges(session);
+        populateLikesEdges(session);
       })
       .catch(err => {
         console.log(err)
