@@ -5,8 +5,15 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { useNavigate } from 'react-router-dom';
 
 export default function SongCard({ song }) {
+    let navigate = useNavigate();
+
+    const goToSong = () => {
+        navigate('/song/' + encodeURIComponent(song['@rid']));
+    }
+
     return (
         <Card sx={{ maxWidth: 345 }}>
           <CardMedia
@@ -27,8 +34,8 @@ export default function SongCard({ song }) {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small" color='secondary'>Share</Button>
-            <Button size="small" color='secondary'>Learn More</Button>
+            <Button size="small" color='secondary' onClick={goToSong}>View</Button>
+            <Button size="small" color='secondary'>Like</Button>
           </CardActions>
         </Card>
       );

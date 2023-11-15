@@ -5,30 +5,37 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import { useNavigate } from 'react-router-dom';
 
 export default function FriendCard({ user }) {
-    return (
-        <Card sx={{ maxWidth: 345 }}>
-          <CardMedia
-            sx={{ height: 140 }}
-            image={"https://robohash.org/" + user?.username}
-            title="Song"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {user.first_name} {user.last_name}
-            </Typography>
-            <Typography variant="h6" color="text.secondary">
-              {user.username}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
+    let navigate=useNavigate();
 
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button size="small" color='secondary'>Add Friend</Button>
-            <Button size="small" color='secondary'>View Profile</Button>
-          </CardActions>
-        </Card>
+    const goToFriendPage = (id) => {
+        navigate('/profile/' + encodeURIComponent(id));
+    }
+
+    return (
+        <Grid item xs={3}  onClick={() => goToFriendPage(user['@rid'])}>
+            <Card sx={{ display: 'flex' }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <CardContent sx={{ flex: '1 0 auto' }}>
+                        <Typography component="div" variant="h5">
+                            {user.first_name} {user.last_name}
+                        </Typography>
+                        <Typography variant="subtitle1" color="text.secondary" component="div">
+                            {user.username}
+                        </Typography>
+                    </CardContent>
+                </Box>
+                <CardMedia
+                    component="img"
+                    sx={{ width: 151 }}
+                    image={"https://robohash.org/" + user.username}
+                    alt="Live from space album cover"
+                />
+            </Card>
+        </Grid>
       );
 }

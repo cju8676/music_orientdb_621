@@ -185,7 +185,7 @@ const boostrap = pool => {
         SELECT expand(out('Friends')) FROM ${req.params.rid}
       ) WHERE @rid NOT IN (
         SELECT expand(out('Likes').in('Likes')) FROM ${req.params.rid}
-      )`)
+      ) LIMIT 10`)
       .all()
       .then(messages => {
         res.send(messages);
@@ -203,7 +203,7 @@ const boostrap = pool => {
         SELECT expand(out('Likes').in('Likes')) FROM ${req.params.rid}
       ) WHERE @rid NOT IN (
         SELECT expand(out('Friends')) FROM ${req.params.rid}
-      )`)
+      ) LIMIT 10`)
       .all()
       .then(messages => {
         res.send(messages);

@@ -48,7 +48,7 @@ export default function NavBar() {
     }
 
     return (
-        <AppBar position="sticky" /*sx={{ background: '#F5F5F5', color: '#F05454' }}*/>
+        <AppBar position="sticky" sx={{borderBottom: 1, borderColor: '#F05454'}}/*sx={{ background: '#F5F5F5', color: '#F05454' }}*/>
             <Container maxWidth="xl">
                 <Toolbar disableGutters sx={{justifyContent: 'space-between'}}>
                     <Typography

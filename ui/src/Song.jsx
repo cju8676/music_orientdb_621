@@ -14,7 +14,7 @@ const bull = (
 
 export default function Song({ song }) {
   return (
-    <Paper sx={{ height: '100%' }}>
+    <Paper sx={{ height: '100%', border: 1, borderColor: '#F05454' }}>
       <Typography gutterBottom className='song-text'>
         Song
       </Typography>

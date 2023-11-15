@@ -3,6 +3,7 @@ import { UserContext } from '../UserContext';
 import { Container, Paper, Grid, Box, Card, CardContent, Typography } from '@mui/material';
 import SongCard from '../SongCard';
 import FriendCard from '../FriendCard';
+import Header from '../Header';
 
 
 
@@ -38,7 +39,7 @@ export default function Home() {
 
     return (
         <div>
-            <h1>Home</h1>
+            <Header text="Home" />
             <Container>
                 <h2>Discover New Songs</h2>
                 <Grid container spacing={2} direction="row" alignItems="center" justifyContent="center">
@@ -54,9 +55,7 @@ export default function Home() {
                 <Grid container spacing={2} direction="row" alignItems="center" justifyContent="center">
                     {recommendedFriends && recommendedFriends.map(friend => {
                         return (
-                            <Grid item xs={6} md={3}>
-                                <FriendCard user={friend} />
-                            </Grid>
+                            <FriendCard user={friend} />
                         )
                     })}
                 </Grid>

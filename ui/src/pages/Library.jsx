@@ -2,6 +2,8 @@ import { React, useContext, useState, useEffect } from 'react';
 import { UserContext } from '../UserContext';
 import { Container, Paper, Grid, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import SongCard from '../SongCard';
+import Header from '../Header';
 
 
 export default function Library() {
@@ -16,7 +18,7 @@ export default function Library() {
                 if (data && data.length > 0)
                     setLikes(data);
             });
-    })
+    }, []);
 
     const goToSongPage = (rid) => {
         navigate('/song/' + encodeURIComponent(rid));
@@ -24,26 +26,18 @@ export default function Library() {
 
     return (
         <div>
-            <h1>Library</h1>
-            {likes && likes.map(like => {
-                return (
-                    <Container onClick={() => goToSongPage(like['@rid'])}>
-                        <Paper sx={{ height: '50%', width: '100%', m:1 }}>
-                            <Grid container spacing={0} direction="row" alignItems="center" justifyContent="center">
-                                <Grid item xs={3}>
-                                    <Box component='img' src={process.env.PUBLIC_URL + '/music.png'} sx={{ width: 100, height: 100, border: '1px solid black', borderRadius: '10px' }} />
-                                </Grid>
-                                <Grid item xs={3}>
-                                    <h2>{like?.title}</h2>
-                                    <h3>{like?.artist}</h3>
-                                    <h3>{like?.album}</h3>
-                                    <h3>{like?.year}</h3>
-                                </Grid>
+            <Header text="Library" />
+            <Container>
+                <Grid container spacing={2} direction="row" alignItems="center" justifyContent="center">
+                    {likes && likes.map(like => {
+                        return (
+                            <Grid item xs={6} md={3}>
+                                <SongCard song={like} onClick={() => goToSongPage(like['@rid'])} />
                             </Grid>
-                        </Paper>
-                    </Container>
-                )
-            })}
+                        )
+                    })}
+                </Grid>
+            </Container>
         </div>
     );
 }

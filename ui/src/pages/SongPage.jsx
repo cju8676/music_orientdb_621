@@ -4,8 +4,9 @@ import Song from '../Song';
 import User from '../User';
 import SimilarSong from '../SimilarSong';
 import Search from '../SearchBar';
-import { Container, Paper } from '@mui/material';
+import { Container, Grid, Paper } from '@mui/material';
 import { SongContext } from '../SongContext';
+import MiniUserCard from '../MiniUserCard';
 
 export default function SongPage({ rid }) {
   const [likes, setLikes] = useState([]);
@@ -45,16 +46,18 @@ export default function SongPage({ rid }) {
           <Container sx={{ width: '50%'}}>
             {/* Right side: Two Lists */}
             <Container className='list'>
+              <h3>Liked By</h3>
               <Paper className='list-paper'>
-                <h3>Liked By</h3>
-                {likes && likes.map(user => {
-                  return <User key={user['@rid']} user={user} />;
-                })}
+                <Grid container spacing={2} direction="row" alignItems="left" justifyContent="flex-start" sx={{height:'fit-content'}}>
+                  {likes && likes.filter((item, idx) => idx < 12).map(user => {
+                    return <Grid item><MiniUserCard key={user['@rid']} user={user} /></Grid>;
+                  })}
+                </Grid>
               </Paper>
             </Container>
             <Container className='list'>
+              <h3>Similar Songs</h3>
               <Paper className='list-paper'>
-                <h3>Similar Songs</h3>
                 <SimilarSong />
                 <SimilarSong />
                 <SimilarSong />
