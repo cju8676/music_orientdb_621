@@ -62,7 +62,7 @@ export default function NavBar() {
     }
 
     return (
-        <AppBar position="sticky" style={{ background: '#EE964B' }}>
+        <AppBar position="sticky" /*sx={{ background: '#F5F5F5', color: '#F05454' }}*/>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <SvgIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />

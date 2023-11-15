@@ -4,7 +4,7 @@ import Song from '../Song';
 import User from '../User';
 import SimilarSong from '../SimilarSong';
 import Search from '../SearchBar';
-import { Paper } from '@mui/material';
+import { Container, Paper } from '@mui/material';
 import { SongContext } from '../SongContext';
 
 function App() {
@@ -42,21 +42,25 @@ function App() {
           <Paper className="info">
             <Song song={song}/>
           </Paper>
-          <div className="lists">
+          <Container sx={{ width: '50%'}}>
             {/* Right side: Two Lists */}
-            <Paper className='list'>
-              <h3>Liked By</h3>
-              {likes && likes.map(user => {
-                return <User key={user['@rid']} user={user} />;
-              })}
-            </Paper>
-            <Paper className="list">
-              <h3>Similar Songs</h3>
-              <SimilarSong />
-              <SimilarSong />
-              <SimilarSong />
-            </Paper>
-          </div>
+            <Container className='list'>
+              <Paper className='list-paper'>
+                <h3>Liked By</h3>
+                {likes && likes.map(user => {
+                  return <User key={user['@rid']} user={user} />;
+                })}
+              </Paper>
+            </Container>
+            <Container className='list'>
+              <Paper className='list-paper'>
+                <h3>Similar Songs</h3>
+                <SimilarSong />
+                <SimilarSong />
+                <SimilarSong />
+              </Paper>
+            </Container>
+          </Container>
         </div>
       </SongContext.Provider>
     </div>

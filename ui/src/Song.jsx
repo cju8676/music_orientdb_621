@@ -5,7 +5,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Avatar } from '@mui/material';
+import { Avatar, Container, Grid, Paper } from '@mui/material';
 
 const bull = (
   <Box
@@ -18,23 +18,33 @@ const bull = (
 
 export default function Song({ song }) {
   return (
-    <Card sx={{ minWidth: 275, minHeight: 400 }}>
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Song
-        </Typography>
-        <Typography variant="h5" component="div">
-          {song.title}
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          {song.artist}
-        </Typography>
-        <Typography variant="body2">
-            {song.album}
-            {song.year}
-        </Typography>
-        <Avatar variant="rounded" src={process.env.PUBLIC_URL + '/music.png'} sx={{ width: 56, height: 56}}/>
-      </CardContent>
-    </Card>
+    <Paper sx={{ height: '100%' }}>
+      <Typography gutterBottom className='song-text'>
+        Song
+      </Typography>
+      <Typography variant="h4" className='song-text'>
+        {song.title}
+      </Typography>
+      <Typography sx={{ mb: 1.5 }} variant="h5" className="song-text" color="text.secondary">
+        {song.artist}
+      </Typography>
+      <Typography variant="body2" className='song-text'>
+        {song.album}
+      </Typography>
+      <Typography variant="body2" className='song-text'>
+        {song.year}
+      </Typography>
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Grid item xs={3}>
+          <Box component='img' src={process.env.PUBLIC_URL + '/music.png'} sx={{ width: 250, height: 250, border: '1px solid black', borderRadius: '10px' }} />
+        </Grid>
+      </Grid>
+    </Paper>
   );
 }
