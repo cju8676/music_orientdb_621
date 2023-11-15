@@ -20,6 +20,11 @@ export default function PageHandle() {
         return <SongPage rid={rid} />;
     }
 
+    const ProfileWrapper = () => {
+        const { rid } = useParams();
+        return <Profile rid={rid} />;
+    }
+
     function handleUserChange(user) {
         setCurrentUser(user)
         localStorage.setItem('user', JSON.stringify(user));
@@ -33,7 +38,7 @@ export default function PageHandle() {
                         <Routes>
                             <Route path="/" element={currentUser ? <Home /> : <Login onChange={handleUserChange}/>} />
                             <Route path="/login" element={<Login />} />
-                            <Route path="/profile" element={currentUser ? <Profile /> : <Login onChange={handleUserChange}/>} />
+                            <Route path="/profile/:rid" element={currentUser ? <ProfileWrapper /> : <Login onChange={handleUserChange}/>} />
                             <Route path="/search" element={currentUser ? <Search /> : <Login onChange={handleUserChange}/>} />
                             <Route path="/song/:rid" element={currentUser ? <SongWrapper /> : <Login onChange={handleUserChange}/>} />
                             <Route path="/library" element={currentUser ? <Library /> : <Login onChange={handleUserChange}/>} />

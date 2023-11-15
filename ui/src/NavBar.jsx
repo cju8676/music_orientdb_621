@@ -41,7 +41,7 @@ export default function NavBar() {
             case "library":
                 return "/library";
             case "profile":
-                return "/profile";
+                return "/profile/" + encodeURIComponent(currentUser['@rid']);
             default:
                 return "/";
         }

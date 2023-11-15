@@ -151,9 +151,9 @@ const boostrap = pool => {
   );
 
   // get friends of user
-  app.get("/friends/:username", function(req, res) {
+  app.get("/friends/:rid", function(req, res) {
     res.locals.db
-      .query(`select expand(out('Friends')) from User where username = '${req.params.username}'`)
+      .query(`select expand(out('Friends')) from User where @rid = '${req.params.rid}'`)
       .all()
       .then(messages => {
         res.send(messages);
@@ -212,6 +212,20 @@ const boostrap = pool => {
         res.status(500).send(err);
       });
   }
+  );
+
+  // get user info by rid
+  app.get("/user/:rid", function(req, res) {
+    res.locals.db
+      .query(`select from User where @rid = '${req.params.rid}'`)
+      .all()
+      .then(messages => {
+        res.send(messages);
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      });
+    }
   );
 
 
