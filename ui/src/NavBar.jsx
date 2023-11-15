@@ -2,31 +2,16 @@ import { React, useContext, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
 import { SvgIcon } from "@mui/material";
-import Search from "./SearchBar";
-import InputBase from '@mui/material/InputBase';
-import Badge from '@mui/material/Badge';
 import SearchIcon from '@mui/icons-material/Search';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import MoreIcon from '@mui/icons-material/MoreVert';
 import HomeIcon from '@mui/icons-material/Home';
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "./UserContext";
-
-const pages = ["Home", "Games", "Players", "Stats"];
-const settings = ["Profile", "Logout"];
 
 export default function NavBar() {
     const { currentUser, setCurrentUser } = useContext(UserContext);
@@ -44,18 +29,19 @@ export default function NavBar() {
 
     const handleCloseNavMenu = (event) => {
         navigate(goToPage(event));
-        // setAnchorElNav(null);
     };
 
     const goToPage = (event) => {
-        console.log("EVENT", event.target.options)
-        switch(event.target.innerText.toLowerCase()) {
+        console.log("EVENT", event.target.id)
+        switch(event.target.id.toLowerCase()) {
             case "home":
                 return "/";
             case "search":
                 return "/search";
             case "library":
                 return "/library";
+            case "profile":
+                return "/profile";
             default:
                 return "/";
         }
@@ -100,20 +86,20 @@ export default function NavBar() {
                         Tuned In
                     </Typography>
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        <Button variant="raised" color="primary" className="nav-button" key="home" onClick={handleCloseNavMenu}>
+                        <Button variant="raised" color="primary" className="nav-button" id="home" onClick={handleCloseNavMenu}>
                                 <HomeIcon />
                             Home
                         </Button>
-                        <Button variant="raised" color="primary" className="nav-button" key="search"onClick={handleCloseNavMenu}>
+                        <Button variant="raised" color="primary" className="nav-button" id="search"onClick={handleCloseNavMenu}>
                                 <SearchIcon />
                             Search
                         </Button>
-                        <Button variant="raised" color="primary" className="nav-button" key="library" onClick={handleCloseNavMenu}>
+                        <Button variant="raised" color="primary" className="nav-button" id="library" onClick={handleCloseNavMenu}>
                                 <LibraryMusicIcon />
                             Library
                         </Button>
                     </Box>
-                    <Button variant="raised" color="primary" className="nav-button" key="profile"onClick={handleCloseNavMenu}>
+                    <Button variant="raised" color="primary" className="nav-button" id="profile"onClick={handleCloseNavMenu}>
                         <Avatar
                             src={"https://robohash.org/" + currentUser?.username}
                             alt={currentUser?.username}
@@ -121,47 +107,6 @@ export default function NavBar() {
                         />
                         {currentUser?.username}
                     </Button>
-                    {/* <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Profile">
-                            <IconButton
-                                onClick={handleOpenUserMenu}
-                                sx={{ p: 0 }}
-                            >
-                                <Avatar
-                                    src={"https://robohash.org/" + currentUser}
-                                    alt={currentUser}
-                                    sx={{ width: 48, height: 48 }}
-                                />
-                            </IconButton>
-                        </Tooltip>
-                        <Menu
-                            sx={{ mt: "45px" }}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: "top",
-                                horizontal: "right",
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: "top",
-                                horizontal: "right",
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
-                        >
-                            {settings.map((setting) => (
-                                <MenuItem
-                                    key={setting}
-                                    onClick={handleCloseUserMenu}
-                                >
-                                    <Typography textAlign="center">
-                                        {setting}
-                                    </Typography>
-                                </MenuItem>
-                            ))}
-                        </Menu>
-                    </Box> */}
                 </Toolbar>
             </Container>
         </AppBar>

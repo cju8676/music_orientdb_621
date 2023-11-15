@@ -139,6 +139,21 @@ const boostrap = pool => {
   }
   );
 
+  // get friends of user
+  app.get("/friends/:username", function(req, res) {
+    res.locals.db
+      .query(`select expand(out('Friends')) from User where username = '${req.params.username}'`)
+      .all()
+      .then(messages => {
+        console.log("messages", messages);
+        res.send(messages);
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      });
+  }
+  );
+
 
 
   // pool.acquire().then(session => {
