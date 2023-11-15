@@ -169,6 +169,44 @@ const boostrap = pool => {
   }
   );
 
+  // get recommended songs for user based on what friends like and what user has not liked yet
+  app.get("/recommendSongs/:rid", function(req, res) {
+    res.locals.db
+      .query(`SELECT expand(out('Likes')) FROM (
+        SELECT expand(out('Friends')) FROM ${req.params.rid}
+      ) WHERE @rid NOT IN (
+        SELECT expand(out('Likes').in('Likes')) FROM ${req.params.rid}
+      )`)
+      .all()
+      .then(messages => {
+        console.log("messages", messages);
+        res.send(messages);
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      });
+  }
+  );
+
+  // get recommended friends based on users who like the same songs as user and who user is not already friends with
+  app.get("/recommendFriends/:rid", function(req, res) {
+    res.locals.db
+      .query(`SELECT expand(out('Friends')) FROM (
+        SELECT expand(out('Likes').in('Likes')) FROM ${req.params.rid}
+      ) WHERE @rid NOT IN (
+        SELECT expand(out('Friends')) FROM ${req.params.rid}
+      )`)
+      .all()
+      .then(messages => {
+        console.log("messages", messages);
+        res.send(messages);
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      });
+  }
+  );
+
 
 
   // pool.acquire().then(session => {
