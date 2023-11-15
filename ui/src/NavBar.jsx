@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useContext, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -23,14 +23,14 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import HomeIcon from '@mui/icons-material/Home';
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "./UserContext";
 
 const pages = ["Home", "Games", "Players", "Stats"];
 const settings = ["Profile", "Logout"];
 
 export default function NavBar() {
+    const { currentUser, setCurrentUser } = useContext(UserContext);
     let navigate = useNavigate();
-    const [currentUser, setCurrentUser] = useState("Corey2");
-    const [currentUserID, setCurrentUserID] = useState("#50:83");
     const [anchorElUser, setAnchorElUser] = useState(null);
 
     const handleOpenUserMenu = (event) => {
@@ -115,11 +115,11 @@ export default function NavBar() {
                     </Box>
                     <Button variant="raised" color="primary" className="nav-button" key="profile"onClick={handleCloseNavMenu}>
                         <Avatar
-                            src={"https://robohash.org/" + currentUser}
-                            alt={currentUser}
+                            src={"https://robohash.org/" + currentUser?.username}
+                            alt={currentUser?.username}
                             // sx={{ width: 48, height: 48 }}
                         />
-                        {currentUser}
+                        {currentUser?.username}
                     </Button>
                     {/* <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Profile">

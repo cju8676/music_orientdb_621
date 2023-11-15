@@ -8,28 +8,37 @@ import SongPage from './pages/SongPage';
 import NavBar from './NavBar';
 import Library from './pages/Library';
 import { Theme } from './extras/Theme';
+import { UserContext } from './UserContext';
 
 
 export default function PageHandle() {
 
+    const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
+
+    function handleUserChange(user) {
+        setCurrentUser(user)
+        localStorage.setItem('user', JSON.stringify(user));
+    }
 
     return (
         <Theme>
-            <HashRouter>
-                <NavBar />
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/profile" element={<Profile />} />
-                        <Route path="/search" element={<Search />} />
-                        <Route path="/song" element={<SongPage />} />
-                        <Route path="/library" element={<Library />} />
-                        <Route
-                            path="*"
-                            element={<Navigate to="/" replace />}
-                        />
-                    </Routes>
-            </HashRouter>
+            <UserContext.Provider value={{ currentUser, setCurrentUser }}>
+                <HashRouter>
+                    {currentUser && <NavBar />}
+                        <Routes>
+                            <Route path="/" element={currentUser ? <Home /> : <Login onChange={handleUserChange}/>} />
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/profile" element={currentUser ? <Profile /> : <Login onChange={handleUserChange}/>} />
+                            <Route path="/search" element={currentUser ? <Search /> : <Login onChange={handleUserChange}/>} />
+                            <Route path="/song" element={currentUser ? <SongPage /> : <Login onChange={handleUserChange}/>} />
+                            <Route path="/library" element={currentUser ? <Library /> : <Login onChange={handleUserChange}/>} />
+                            <Route
+                                path="*"
+                                element={<Navigate to="/" replace />}
+                            />
+                        </Routes>
+                </HashRouter>
+            </UserContext.Provider>
         </Theme>
     );
 }
