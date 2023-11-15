@@ -1,11 +1,13 @@
 import { React, useContext, useState, useEffect } from 'react';
 import { UserContext } from '../UserContext';
 import { Container, Paper, Grid, Box } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Library() {
     const { currentUser } = useContext(UserContext);
     const [likes, setLikes] = useState([]);
+    let navigate = useNavigate();
 
     useEffect(() => {
         fetch("/likes/" + currentUser.username)
@@ -16,12 +18,16 @@ export default function Library() {
             });
     })
 
+    const goToSongPage = (rid) => {
+        navigate('/song/' + encodeURIComponent(rid));
+    }
+
     return (
         <div>
             <h1>Library</h1>
             {likes && likes.map(like => {
                 return (
-                    <Container>
+                    <Container onClick={() => goToSongPage(like['@rid'])}>
                         <Paper sx={{ height: '50%', width: '100%', m:1 }}>
                             <Grid container spacing={0} direction="row" alignItems="center" justifyContent="center">
                                 <Grid item xs={3}>

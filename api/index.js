@@ -68,9 +68,22 @@ const boostrap = pool => {
         res.status(500).send(err);
       });
   });
-  app.get("/onelikes", function(req, res) {
+
+  app.get("/song/:rid", function(req, res) {
     res.locals.db
-      .query("SELECT expand(in('Likes')) FROM #62:7")
+      .query(`select from Song where @rid = '${req.params.rid}'`)
+      .all()
+      .then(messages => {
+        res.send(messages);
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      });
+  });
+
+  app.get("/song/likes/:rid", function(req, res) {
+    res.locals.db
+      .query(`SELECT expand(in('Likes')) FROM ${req.params.rid}`)
       .all()
       .then(messages => {
         res.send(messages);
@@ -116,7 +129,6 @@ const boostrap = pool => {
       .query(`select from Song where title like '%${req.params.searchTerm}%'`)
       .all()
       .then(messages => {
-        console.log("messages", messages);
         res.send(messages);
       })
       .catch(err => {
@@ -130,7 +142,6 @@ const boostrap = pool => {
       .query(`select from User where username = '${req.params.username}'`)
       .all()
       .then(messages => {
-        console.log("messages", messages);
         res.send(messages);
       })
       .catch(err => {
@@ -145,7 +156,6 @@ const boostrap = pool => {
       .query(`select expand(out('Friends')) from User where username = '${req.params.username}'`)
       .all()
       .then(messages => {
-        console.log("messages", messages);
         res.send(messages);
       })
       .catch(err => {
@@ -160,7 +170,6 @@ const boostrap = pool => {
       .query(`select expand(out('Likes')) from User where username = '${req.params.username}'`)
       .all()
       .then(messages => {
-        console.log("messages", messages);
         res.send(messages);
       })
       .catch(err => {
@@ -179,7 +188,6 @@ const boostrap = pool => {
       )`)
       .all()
       .then(messages => {
-        console.log("messages", messages);
         res.send(messages);
       })
       .catch(err => {
@@ -198,7 +206,6 @@ const boostrap = pool => {
       )`)
       .all()
       .then(messages => {
-        console.log("messages", messages);
         res.send(messages);
       })
       .catch(err => {

@@ -7,7 +7,7 @@ import Search from '../SearchBar';
 import { Container, Paper } from '@mui/material';
 import { SongContext } from '../SongContext';
 
-function App() {
+export default function SongPage({ rid }) {
   const [likes, setLikes] = useState([]);
   const [song, setSong] = useState({
     title: "",
@@ -17,7 +17,7 @@ function App() {
   });
 
   useEffect(() => {
-    fetch("/onelikes")
+    fetch("/song/likes/" + encodeURIComponent(rid))
       .then(res => res.json())
       .then(data => {
         if (data && data.length > 0)
@@ -26,7 +26,7 @@ function App() {
   }, []);
 
   function getSong() {
-    fetch('/onesong')
+    fetch('/song/' + encodeURIComponent(rid))
       .then(response => response.json())
       .then(data => setSong(data[0]));
   }
@@ -66,5 +66,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
