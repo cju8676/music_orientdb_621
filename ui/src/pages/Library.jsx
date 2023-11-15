@@ -1,10 +1,43 @@
-import { React } from 'react';
+import { React, useContext, useState, useEffect } from 'react';
+import { UserContext } from '../UserContext';
+import { Container, Paper, Grid, Box } from '@mui/material';
 
 
 export default function Library() {
-        return (
-            <div>
-                <h1>Library</h1>
-            </div>
-        );
-    }
+    const { currentUser } = useContext(UserContext);
+    const [likes, setLikes] = useState([]);
+
+    useEffect(() => {
+        fetch("/likes/" + currentUser.username)
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.length > 0)
+                    setLikes(data);
+            });
+    })
+
+    return (
+        <div>
+            <h1>Library</h1>
+            {likes && likes.map(like => {
+                return (
+                    <Container>
+                        <Paper sx={{ height: '50%', width: '100%', m:1 }}>
+                            <Grid container spacing={0} direction="row" alignItems="center" justifyContent="center">
+                                <Grid item xs={3}>
+                                    <Box component='img' src={process.env.PUBLIC_URL + '/music.png'} sx={{ width: 100, height: 100, border: '1px solid black', borderRadius: '10px' }} />
+                                </Grid>
+                                <Grid item xs={3}>
+                                    <h2>{like?.title}</h2>
+                                    <h3>{like?.artist}</h3>
+                                    <h3>{like?.album}</h3>
+                                    <h3>{like?.year}</h3>
+                                </Grid>
+                            </Grid>
+                        </Paper>
+                    </Container>
+                )
+            })}
+        </div>
+    );
+}

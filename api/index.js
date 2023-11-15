@@ -154,6 +154,21 @@ const boostrap = pool => {
   }
   );
 
+  // get songs liked by user
+  app.get("/likes/:username", function(req, res) {
+    res.locals.db
+      .query(`select expand(out('Likes')) from User where username = '${req.params.username}'`)
+      .all()
+      .then(messages => {
+        console.log("messages", messages);
+        res.send(messages);
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      });
+  }
+  );
+
 
 
   // pool.acquire().then(session => {
