@@ -3,15 +3,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Grid, Paper } from '@mui/material';
 
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-  >
-    •
-  </Box>
-);
-
 export default function Song({ song }) {
   return (
     <Paper sx={{ height: '100%', border: 1, borderColor: '#F05454' }}>

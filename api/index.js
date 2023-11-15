@@ -123,6 +123,22 @@ const boostrap = pool => {
       });
   });
 
+    // user unlikes a song
+    app.post("/unlike/:user_in/:song_out", function(req, res) {
+      res.locals.db
+        .command(
+          `delete edge Likes from (select from User where username = '${req.params.user_in}') to (select from Song where @rid = '${req.params.song_out}')`
+        )
+        .all()
+        .then(messages => {
+          res.send(messages);
+        })
+        .catch(err => {
+          res.status(500).send(err);
+          console.log(err);
+        });
+    });
+
   // get songs with titles containing searchTerm
   app.get("/songs/:searchTerm", function(req, res) {
     res.locals.db
@@ -227,8 +243,6 @@ const boostrap = pool => {
       });
     }
   );
-
-
 
   // pool.acquire().then(session => {
   //   session.liveQuery(`select from User`).on("data", msg => {

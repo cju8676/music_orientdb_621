@@ -1,6 +1,6 @@
 import { React } from 'react';
 import SearchBar from '../SearchBar';
-import { Box, Container, Paper } from '@mui/material';
+import { Container, Paper } from '@mui/material';
 import Header from '../Header';
 
 export default function Search() {

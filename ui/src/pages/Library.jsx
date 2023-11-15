@@ -1,6 +1,6 @@
 import { React, useContext, useState, useEffect } from 'react';
 import { UserContext } from '../UserContext';
-import { Container, Paper, Grid, Box } from '@mui/material';
+import { Container, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import SongCard from '../SongCard';
 import Header from '../Header';
@@ -18,7 +18,7 @@ export default function Library() {
                 if (data && data.length > 0)
                     setLikes(data);
             });
-    }, []);
+    }, [currentUser.username]);
 
     const goToSongPage = (rid) => {
         navigate('/song/' + encodeURIComponent(rid));
@@ -28,10 +28,10 @@ export default function Library() {
         <div>
             <Header text="Library" />
             <Container>
-                <Grid container spacing={2} direction="row" alignItems="center" justifyContent="center">
+                <Grid container spacing={2} direction="row" alignItems="center" justifyContent="flex-start">
                     {likes && likes.map(like => {
                         return (
-                            <Grid item xs={6} md={3}>
+                            <Grid item xs={6} md={3} >
                                 <SongCard song={like} onClick={() => goToSongPage(like['@rid'])} />
                             </Grid>
                         )

@@ -1,9 +1,7 @@
 import '../App.css';
 import {React, useState, useEffect} from 'react';
 import Song from '../Song';
-import User from '../User';
 import SimilarSong from '../SimilarSong';
-import Search from '../SearchBar';
 import { Container, Grid, Paper } from '@mui/material';
 import { SongContext } from '../SongContext';
 import MiniUserCard from '../MiniUserCard';

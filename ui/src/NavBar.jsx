@@ -1,4 +1,4 @@
-import { React, useContext, useState } from "react";
+import { React, useContext } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -6,7 +6,6 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import { SvgIcon } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import HomeIcon from '@mui/icons-material/Home';
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
@@ -14,25 +13,14 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "./UserContext";
 
 export default function NavBar() {
-    const { currentUser, setCurrentUser } = useContext(UserContext);
+    const { currentUser } = useContext(UserContext);
     let navigate = useNavigate();
-    const [anchorElUser, setAnchorElUser] = useState(null);
-
-    const handleOpenUserMenu = (event) => {
-        setAnchorElUser(event.currentTarget);
-    };
-
-    function handleCloseUserMenu(event) {
-        if (event.target.innerText === "Logout")
-            setAnchorElUser(null);
-    };
 
     const handleCloseNavMenu = (event) => {
         navigate(goToPage(event));
     };
 
     const goToPage = (event) => {
-        console.log("EVENT", event.target.id)
         switch(event.target.id.toLowerCase()) {
             case "home":
                 return "/";

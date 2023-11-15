@@ -1,6 +1,6 @@
 import { React, useContext, useEffect, useState } from 'react';
 import { UserContext } from '../UserContext';
-import { Container, Paper, Grid, Box, Card, CardContent, Typography } from '@mui/material';
+import { Container,Grid} from '@mui/material';
 import SongCard from '../SongCard';
 import FriendCard from '../FriendCard';
 import Header from '../Header';
@@ -41,7 +41,7 @@ export default function Home() {
         <div>
             <Header text="Home" />
             <Container>
-                <h2>Discover New Songs</h2>
+                <h2>Discover New Songs!</h2>
                 <Grid container spacing={2} direction="row" alignItems="center" justifyContent="center">
                     {recommendedSongs && recommendedSongs.map(song => {
                         return (

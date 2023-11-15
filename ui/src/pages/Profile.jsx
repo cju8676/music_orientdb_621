@@ -1,7 +1,6 @@
 import { React, useContext, useEffect, useState } from 'react';
 import { UserContext } from '../UserContext';
-import { Box, Card, CardContent, Container, Grid, IconButton, Paper, Typography, CardMedia, Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Box,Container, Grid,Paper, Button } from '@mui/material';
 import Header from '../Header';
 import FriendCard from '../FriendCard';
 
@@ -9,7 +8,6 @@ export default function Profile({ rid }) {
     const { currentUser } = useContext(UserContext);
     const [user, setUser] = useState({})
     const [friends, setFriends] = useState([]);
-    let navigate = useNavigate();
 
     useEffect(() => {
         getUser();
@@ -33,10 +31,6 @@ export default function Profile({ rid }) {
             .then(data => setFriends(data));
     }
 
-    function goToFriendPage(rid) {
-        navigate('/profile/' + encodeURIComponent(rid));
-    }
-
     return (
         <div>
             <Header text="Profile" />
@@ -52,7 +46,7 @@ export default function Profile({ rid }) {
                             <h3>{user?.email}</h3>
                         </Grid>
                         <Grid item xs={3}>
-                            {currentUser['@rid'] == user['@rid'] && <Button variant="contained" color="secondary" onClick={logout}>Logout</Button>}
+                            {currentUser['@rid'] === user['@rid'] && <Button variant="contained" color="secondary" onClick={logout}>Logout</Button>}
                         </Grid>
                     </Grid>
 
