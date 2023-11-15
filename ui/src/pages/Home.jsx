@@ -1,6 +1,8 @@
 import { React, useContext, useEffect, useState } from 'react';
 import { UserContext } from '../UserContext';
 import { Container, Paper, Grid, Box, Card, CardContent, Typography } from '@mui/material';
+import SongCard from '../SongCard';
+import FriendCard from '../FriendCard';
 
 
 
@@ -42,19 +44,8 @@ export default function Home() {
                 <Grid container spacing={2} direction="row" alignItems="center" justifyContent="center">
                     {recommendedSongs && recommendedSongs.map(song => {
                         return (
-                            <Grid item xs={3}>
-                                <Card sx={{ display: 'flex' }}>
-                                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                        <CardContent sx={{ flex: '1 0 auto' }}>
-                                            <Typography component="div" variant="h5">
-                                                {song.title}
-                                            </Typography>
-                                            <Typography variant="subtitle1" color="text.secondary" component="div">
-                                                {song.artist}
-                                            </Typography>
-                                        </CardContent>
-                                    </Box>
-                                </Card>
+                            <Grid item xs={6} md={3}>
+                                <SongCard song={song} />
                             </Grid>
                         )
                     })}
@@ -63,19 +54,8 @@ export default function Home() {
                 <Grid container spacing={2} direction="row" alignItems="center" justifyContent="center">
                     {recommendedFriends && recommendedFriends.map(friend => {
                         return (
-                            <Grid item xs={3}>
-                                <Card sx={{ display: 'flex' }}>
-                                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                                        <CardContent sx={{ flex: '1 0 auto' }}>
-                                            <Typography component="div" variant="h5">
-                                                {friend.first_name} {friend.last_name}
-                                            </Typography>
-                                            <Typography variant="subtitle1" color="text.secondary" component="div">
-                                                {friend.username}
-                                            </Typography>
-                                        </CardContent>
-                                    </Box>
-                                </Card>
+                            <Grid item xs={6} md={3}>
+                                <FriendCard user={friend} />
                             </Grid>
                         )
                     })}
