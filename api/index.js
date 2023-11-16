@@ -153,6 +153,19 @@ const boostrap = pool => {
       });
   });
 
+  // get users with usernames containing searchTerm
+  app.get("/users/:searchTerm", function(req, res) {
+    res.locals.db
+      .query(`select from User where username like '%${req.params.searchTerm}%'`)
+      .all()
+      .then(messages => {
+        res.send(messages);
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      });
+  });
+
   // login user
   app.get("/login/:username", function(req, res) {
     res.locals.db

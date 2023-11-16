@@ -1,58 +1,72 @@
-import {React, useState, useContext} from 'react';
+import { React, useState, useContext } from 'react';
 import { SongContext } from './SongContext';
 import Paper from '@mui/material/Paper';
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, Box, Container, IconButton, TextField } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
-export default function Search() {
-    const { song, setSong } = useContext(SongContext);
+export default function Search({ searchType, setResults }) {
+    const [searchValue, setSearchValue] = useState('');
     const [options, setOptions] = useState([]);
 
     const getData = (searchTerm) => {
         fetch("/songs/" + searchTerm, {
             headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json"
+                "Content-Type": "application/json",
+                Accept: "application/json"
             }
         })
             .then(function (response) {
-            return response.json();
+                return response.json();
             })
             .then(function (myJson) {
-            console.log(
-                "search term: " + searchTerm + ", results: ",
-                myJson
-            );
-            const updatedOptions = myJson.map((p) => {
-                return { title: p.title };
-            });
-            setOptions(updatedOptions);
+                console.log(
+                    "search term: " + searchTerm + ", results: ",
+                    myJson
+                );
+                const updatedOptions = myJson.map((p) => {
+                    return { title: p.title };
+                });
+                setOptions(updatedOptions);
             });
     };
 
-    const onInputChange = (event, value, reason) => {
-        if (value) {
-            getData(value);
-        } else {
-            setOptions([]);
-        }
+    const searchForValue = () => {
+        fetch(`/${searchType}/` + searchValue, {
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json"
+            }
+        })
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (myJson) {
+                console.log(
+                    "search term: " + searchValue + ", results: ",
+                    myJson
+                );
+                setResults(myJson);
+            });
+    };
+
+    const onInputChange = (event) => {
+        setSearchValue(event.target.value);
     };
 
     return (
-        <Paper
-        component="form"
-        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
-        >
-            <Autocomplete
-                id="combo-box-demo"
+        <Box sx={{ display: 'flex', width: '33%'}}>
+            <TextField label={`Search ${searchType}`} variant="standard"
+                id="standard-basic"
                 options={options}
                 onInputChange={onInputChange}
                 getOptionLabel={(option) => option.title}
-                onChange={(event, value) => console.log(value)} // prints the selected value
+                onChange={onInputChange}
                 style={{ width: "100%" }}
-                renderInput={(params) => (
-                    <TextField {...params} label="Search Songs..." variant="filled" />
-                    )}
             />
-        </Paper>
+            <IconButton aria-label="search" onClick={searchForValue}>
+                <SearchIcon />
+            </IconButton>
+        </Box>
+
     );
 }

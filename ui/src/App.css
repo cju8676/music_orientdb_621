@@ -25,6 +25,11 @@
   overflow: auto;
 }
 
+.search-results {
+  max-height: 65vh;
+  overflow: auto;
+}
+
 .list {
   /* flex-basis: 48%;
   height: 43.5vh; */
