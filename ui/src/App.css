@@ -21,12 +21,13 @@
 .list-paper {
   border: 1px solid #ccc;
   padding: 10px;
-  max-height: 40vh;
+  max-height: 50vh;
+  overflow: auto;
 }
 
 .list {
-  flex-basis: 48%; /* Adjust as needed to leave some spacing between the lists */
-  height: 43.5vh;
+  /* flex-basis: 48%;
+  height: 43.5vh; */
 }
 
 .search-bar {

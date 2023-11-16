@@ -81,6 +81,7 @@ const boostrap = pool => {
       });
   });
 
+  // this gets ALL the likes for a song
   app.get("/song/likes/:rid", function(req, res) {
     res.locals.db
       .query(`SELECT expand(in('Likes')) FROM ${req.params.rid}`)
@@ -250,6 +251,22 @@ const boostrap = pool => {
       .command(
         `create edge Friends from (select from User where username = '${req.params.user_in}') to (select from User where username = '${req.params.user_out}')`
       )
+      .all()
+      .then(messages => {
+        res.send(messages);
+      })
+      .catch(err => {
+        res.status(500).send(err);
+        console.log(err);
+      });
+  });
+
+  // get liked songs of users that like this song and order by frequency
+  app.get("/songRec/:rid", function(req, res) {
+    res.locals.db
+      .query(`SELECT expand(out('Likes')) FROM (
+        SELECT expand(in('Likes')) FROM ${req.params.rid}
+      )`)
       .all()
       .then(messages => {
         res.send(messages);

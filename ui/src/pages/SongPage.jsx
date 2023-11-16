@@ -14,6 +14,7 @@ export default function SongPage({ rid }) {
     album: "",
     year: "",
   });
+  const [similarSongs, setSimilarSongs] = useState([]);
 
   useEffect(() => {
     fetch("/song/likes/" + encodeURIComponent(rid))
@@ -22,7 +23,7 @@ export default function SongPage({ rid }) {
         if (data && data.length > 0)
           setLikes(data);
       });
-  }, []);
+  }, [rid]);
 
   function getSong() {
     fetch('/song/' + encodeURIComponent(rid))
@@ -30,9 +31,16 @@ export default function SongPage({ rid }) {
       .then(data => setSong(data[0]));
   }
 
+  function getSimilarSongs() {
+    fetch('/songRec/' + encodeURIComponent(rid))
+      .then(response => response.json())
+      .then(data => setSimilarSongs(data.filter((item, idx) => item['@rid'] !== rid)));
+  }
+
   useEffect(() => {
     getSong();
-  }, []);
+    getSimilarSongs();
+  }, [rid]);
 
   return (
     <div>
@@ -44,7 +52,7 @@ export default function SongPage({ rid }) {
           <Container sx={{ width: '50%'}}>
             {/* Right side: Two Lists */}
             <Container className='list'>
-              <h3>Liked By</h3>
+              <h3>Liked By:</h3>
               <Paper className='list-paper'>
                 <Grid container spacing={2} direction="row" alignItems="left" justifyContent="flex-start" sx={{height:'fit-content'}}>
                   {likes && likes.filter((item, idx) => idx < 12).map(user => {
@@ -54,11 +62,11 @@ export default function SongPage({ rid }) {
               </Paper>
             </Container>
             <Container className='list'>
-              <h3>Similar Songs</h3>
+              <h3>Users Also Liked These Songs:</h3>
               <Paper className='list-paper'>
-                <SimilarSong />
-                <SimilarSong />
-                <SimilarSong />
+                  {similarSongs && similarSongs.filter((item, idx) => idx < 12).map(song => {
+                    return <SimilarSong key={song['@rid']} song={song} />;
+                  })}
               </Paper>
             </Container>
           </Container>
