@@ -1,4 +1,4 @@
-import { React, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import { HashRouter, Route, Routes, useParams, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Home from './pages/Home';
@@ -29,6 +29,10 @@ export default function PageHandle() {
         setCurrentUser(user)
         localStorage.setItem('user', JSON.stringify(user));
     }
+
+    useEffect(() => {
+        console.log("updating user", currentUser)
+    }, [currentUser]);
 
     return (
         <Theme>

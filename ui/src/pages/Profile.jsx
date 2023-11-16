@@ -5,15 +5,20 @@ import Header from '../Header';
 import FriendCard from '../FriendCard';
 
 export default function Profile({ rid }) {
-    const { currentUser } = useContext(UserContext);
-
+    const { currentUser, setCurrentUser } = useContext(UserContext);
+    
     const [user, setUser] = useState({})
-    const [friends, setFriends] = useState([]);
-
+    const [follow, setFollow] = useState([]);
+    console.log("current user", currentUser)
+    console.log("this users profile", user)
+    
     useEffect(() => {
         getUser();
-        getFriends();
     }, [rid]);
+
+    useEffect(() => {
+        getFollow();
+    }, [user]);
 
     function logout() {
         localStorage.removeItem('user');
@@ -26,11 +31,39 @@ export default function Profile({ rid }) {
             .then(data => setUser(data[0]));
     }
 
-    function getFriends() {
-        fetch('/friends/' + encodeURIComponent(rid))
+    function getFollow() {
+        fetch(`/${currentUser.username === user.username ? 'friends' : 'following'}/` + encodeURIComponent(rid))
             .then(response => response.json())
-            .then(data => setFriends(data));
+            .then(data => setFollow(data));
     }
+
+    const unfollowUser = () => {
+        fetch('/unFriend/' + encodeURIComponent(currentUser['username']) + '/' + encodeURIComponent(user['username']), {
+            method: 'POST'
+        }).then(res => res.json())
+        .then(data => {
+            getUser();
+            // this is bad
+            fetch('/user/' + encodeURIComponent(currentUser['@rid']))
+            .then(response => response.json())
+            .then(data => setCurrentUser(data[0]));
+        });
+    }
+
+    const followUser = () => {
+        fetch('/addFriend/' + encodeURIComponent(currentUser['username']) + '/' + encodeURIComponent(user['username']), {
+            method: 'POST'
+        }).then(res => res.json())
+        .then(data => {
+            getUser();
+            // this is bad
+            fetch('/user/' + encodeURIComponent(currentUser['@rid']))
+            .then(response => response.json())
+            .then(data => setCurrentUser(data[0]));
+        });
+    }
+
+
 
     return (
         <div>
@@ -49,17 +82,19 @@ export default function Profile({ rid }) {
                         <Grid item xs={3}>
                             {currentUser['@rid'] === user['@rid'] && <Button variant="contained" color="secondary" onClick={logout}>Logout</Button>}
                             {currentUser['@rid'] !== user['@rid'] &&
-                                <Button variant="contained" color="success">Follow</Button>
+                                currentUser?.out_Friends?.delegate.entries.some(f => user?.in_Friends?.delegate.entries.includes(f)) ?
+                                <Button variant="contained" color="error" onClick={unfollowUser}>Unfollow</Button> :
+                                <Button variant="contained" color="success" onClick={followUser}>Follow</Button>
                             }
                         </Grid>
                     </Grid>
 
                 </Paper>
             </Container>
-            <Header text="Friends" />
+            <Header text={currentUser['@rid'] === user['@rid'] ? "Users I am Following" : "Their Followers"} />
             <Container>
                 <Grid container spacing={2} direction="row" justifyContent="flex-start">
-                {friends && friends.map(friend => {
+                {follow && follow.map(friend => {
                     return (
                         <FriendCard user={friend} />
                         )

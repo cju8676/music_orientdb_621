@@ -194,6 +194,20 @@ const boostrap = pool => {
   }
   );
 
+  // get following of user
+  app.get("/following/:rid", function(req, res) {
+    res.locals.db
+      .query(`select expand(in('Friends')) from User where @rid = '${req.params.rid}'`)
+      .all()
+      .then(messages => {
+        res.send(messages);
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      });
+  }
+  );
+
   // get songs liked by user
   app.get("/likes/:username", function(req, res) {
     res.locals.db
@@ -263,6 +277,22 @@ const boostrap = pool => {
     res.locals.db
       .command(
         `create edge Friends from (select from User where username = '${req.params.user_in}') to (select from User where username = '${req.params.user_out}')`
+      )
+      .all()
+      .then(messages => {
+        res.send(messages);
+      })
+      .catch(err => {
+        res.status(500).send(err);
+        console.log(err);
+      });
+  });
+
+  // unfollow a user
+  app.post("/unFriend/:user_in/:user_out", function(req, res) {
+    res.locals.db
+      .command(
+        `delete edge Friends from (select from User where username = '${req.params.user_in}') to (select from User where username = '${req.params.user_out}')`
       )
       .all()
       .then(messages => {
