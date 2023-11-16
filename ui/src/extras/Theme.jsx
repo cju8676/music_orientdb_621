@@ -4,7 +4,7 @@ const { augmentColor } = palette;
 const createColor = (mainColor) => augmentColor({ color: { main: mainColor } });
 const theme = responsiveFontSizes(createTheme({
   palette: {
-    primary: createColor('#F5F5F5'),
+    primary: createColor('#F05454'),
     secondary: createColor('#F05454'),
     black: createColor('#121212'),
     white: createColor('#FFFFFF'),
