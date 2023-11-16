@@ -47,7 +47,7 @@ export default function SongPage({ rid }) {
       <SongContext.Provider value={{ song, setSong }}>
         <div className="info-page">
           <Paper className="info">
-            <Song song={song}/>
+            <Song song={song} setSong={setSong} />
           </Paper>
           <Container sx={{ width: '50%'}}>
             {/* Right side: Two Lists */}
@@ -65,7 +65,7 @@ export default function SongPage({ rid }) {
               <h3>Users Also Liked These Songs:</h3>
               <Paper className='list-paper'>
                   {similarSongs && similarSongs.filter((item, idx) => idx < 12).map(song => {
-                    return <SimilarSong key={song['@rid']} song={song} />;
+                    return <SimilarSong key={song['@rid']} song={song} setSong={setSong} />;
                   })}
               </Paper>
             </Container>

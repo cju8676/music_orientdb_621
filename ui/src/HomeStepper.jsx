@@ -16,10 +16,6 @@ export default function HomeStepper({ activeStep, setActiveStep, totalSteps }) {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
-    useEffect(() => {
-        console.log("active step", activeStep);
-    }, [activeStep]);
-
     return (
         <MobileStepper
             variant="progress"

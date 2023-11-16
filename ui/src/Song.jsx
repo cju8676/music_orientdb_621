@@ -2,8 +2,9 @@ import { React } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Grid, Paper } from '@mui/material';
+import LikeButton from './LikeButton';
 
-export default function Song({ song }) {
+export default function Song({ song, setSong }) {
   return (
     <Paper sx={{ height: '100%', border: 1, borderColor: '#F05454' }}>
       <Typography gutterBottom className='song-text'>
@@ -32,6 +33,18 @@ export default function Song({ song }) {
           <Box component='img' src={process.env.PUBLIC_URL + '/music.png'} sx={{ width: 250, height: 250, border: '1px solid black', borderRadius: '10px' }} />
         </Grid>
       </Grid>
+      <Grid
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Grid item xs={3}>
+          <LikeButton song={song} setSong={setSong} />
+        </Grid>
+      </Grid>
+
     </Paper>
   );
 }

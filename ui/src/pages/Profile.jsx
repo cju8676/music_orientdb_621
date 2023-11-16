@@ -3,14 +3,12 @@ import { UserContext } from '../UserContext';
 import { Box,Container, Grid,Paper, Button } from '@mui/material';
 import Header from '../Header';
 import FriendCard from '../FriendCard';
+import FollowButton from '../FollowButton';
 
 export default function Profile({ rid }) {
     const { currentUser, setCurrentUser } = useContext(UserContext);
-    
     const [user, setUser] = useState({})
     const [follow, setFollow] = useState([]);
-    console.log("current user", currentUser)
-    console.log("this users profile", user)
     
     useEffect(() => {
         getUser();
@@ -37,34 +35,6 @@ export default function Profile({ rid }) {
             .then(data => setFollow(data));
     }
 
-    const unfollowUser = () => {
-        fetch('/unFriend/' + encodeURIComponent(currentUser['username']) + '/' + encodeURIComponent(user['username']), {
-            method: 'POST'
-        }).then(res => res.json())
-        .then(data => {
-            getUser();
-            // this is bad but it somehow works
-            fetch('/user/' + encodeURIComponent(currentUser['@rid']))
-                .then(response => response.json())
-                .then(data => setCurrentUser(data[0]));
-        });
-    }
-
-    const followUser = () => {
-        fetch('/addFriend/' + encodeURIComponent(currentUser['username']) + '/' + encodeURIComponent(user['username']), {
-            method: 'POST'
-        }).then(res => res.json())
-        .then(data => {
-            getUser();
-            // this is bad but it somehow works
-            fetch('/user/' + encodeURIComponent(currentUser['@rid']))
-                .then(response => response.json())
-                .then(data => setCurrentUser(data[0]));
-        });
-    }
-
-
-
     return (
         <div>
             <Header text="Profile" />
@@ -81,11 +51,7 @@ export default function Profile({ rid }) {
                         </Grid>
                         <Grid item xs={3}>
                             {currentUser['@rid'] === user['@rid'] && <Button variant="contained" color="secondary" onClick={logout}>Logout</Button>}
-                            {currentUser['@rid'] !== user['@rid'] &&
-                                currentUser?.out_Friends?.delegate.entries.some(f => user?.in_Friends?.delegate.entries.includes(f)) ?
-                                <Button variant="contained" color="error" onClick={unfollowUser}>Unfollow</Button> :
-                                <Button variant="contained" color="success" onClick={followUser}>Follow</Button>
-                            }
+                            {currentUser['@rid'] !== user['@rid'] && <FollowButton user={user} setUser={setUser} />}
                         </Grid>
                     </Grid>
 
