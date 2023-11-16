@@ -32,6 +32,7 @@ export default function PageHandle() {
 
     useEffect(() => {
         console.log("updating user", currentUser)
+        localStorage.setItem('user', JSON.stringify(currentUser));
     }, [currentUser]);
 
     return (

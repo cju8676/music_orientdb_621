@@ -11,7 +11,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { UserContext } from './UserContext';
 import { IconButton } from '@mui/material';
 
-export default function SongCard({ song }) {
+export default function SongCard(props) {
+    const [song, setSong] = useState(props.song);
     const { currentUser, setCurrentUser } = useContext(UserContext);
     const [isLikedByUser, setIsLikedByUser] = useState(false);
     let navigate = useNavigate();
@@ -22,43 +23,24 @@ export default function SongCard({ song }) {
                 like => song.in_Likes.delegate.entries.includes(like)
             ));
     
-    }, [])
+    }, [song, currentUser]);
 
     const goToSong = () => {
         navigate('/song/' + encodeURIComponent(song['@rid']));
     }
-    
-    const removeCurrentUserLike = () => {
-        setCurrentUser(prevState => {
-            return {
-                ...prevState,
-                out_Likes: {
-                    ...prevState.outLikes,
-                    delegate: {
-                        ...prevState.out_Likes.delegate,
-                        entries: prevState.out_Likes.delegate.entries.filter(like => like['@rid'] !== song['@rid'])
-                    }
-                }
-            }
-        });
-        setIsLikedByUser(false);
+
+    const refreshSong = () => {
+        fetch('/song/' + encodeURIComponent(song['@rid']))
+            .then(response => response.json())
+            .then(data => setSong(data[0]));
     }
 
-    const addCurrentUserLike = (rid) => {
-        setCurrentUser(prevState => {
-            return {
-                ...prevState,
-                out_Likes: {
-                    ...prevState.outLikes,
-                    delegate: {
-                        ...prevState.out_Likes.delegate,
-                        entries: [...prevState.out_Likes.delegate.entries, rid]
-                    }
-                }
-            }
-        });
-        setIsLikedByUser(true);
+    const refreshUser = () => {
+        fetch('/user/' + encodeURIComponent(currentUser['@rid']))
+            .then(response => response.json())
+            .then(data => setCurrentUser(data[0]));
     }
+
     
     // currentUser either likes or chooses to remove from likes
     const likeOrUnLikeSong = () => {
@@ -68,7 +50,9 @@ export default function SongCard({ song }) {
             }).then(res => res.json())
             .then(data => {
                 console.log(data);
-                removeCurrentUserLike(data[0]['@rid']);
+                // bad way to refresh both this song and the user unliking it
+                refreshSong();
+                refreshUser();
             });
         } else {
             fetch('/likeSong/' + encodeURIComponent(currentUser['username']) + '/' + encodeURIComponent(song['@rid']), {
@@ -76,7 +60,9 @@ export default function SongCard({ song }) {
             }).then(res => res.json())
             .then(data => {
                 console.log(data);
-                addCurrentUserLike(data[0]['@rid']);
+                // do the same bad thing here
+                refreshSong();
+                refreshUser();
             });
         }
     }

@@ -43,10 +43,10 @@ export default function Profile({ rid }) {
         }).then(res => res.json())
         .then(data => {
             getUser();
-            // this is bad
+            // this is bad but it somehow works
             fetch('/user/' + encodeURIComponent(currentUser['@rid']))
-            .then(response => response.json())
-            .then(data => setCurrentUser(data[0]));
+                .then(response => response.json())
+                .then(data => setCurrentUser(data[0]));
         });
     }
 
@@ -56,10 +56,10 @@ export default function Profile({ rid }) {
         }).then(res => res.json())
         .then(data => {
             getUser();
-            // this is bad
+            // this is bad but it somehow works
             fetch('/user/' + encodeURIComponent(currentUser['@rid']))
-            .then(response => response.json())
-            .then(data => setCurrentUser(data[0]));
+                .then(response => response.json())
+                .then(data => setCurrentUser(data[0]));
         });
     }
 

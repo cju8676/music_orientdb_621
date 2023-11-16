@@ -1,4 +1,4 @@
-import { React } from 'react';
+import { React, useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 import MobileStepper from '@mui/material/MobileStepper';
 import Button from '@mui/material/Button';
@@ -15,6 +15,10 @@ export default function HomeStepper({ activeStep, setActiveStep, totalSteps }) {
     const handleBack = () => {
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
+
+    useEffect(() => {
+        console.log("active step", activeStep);
+    }, [activeStep]);
 
     return (
         <MobileStepper
