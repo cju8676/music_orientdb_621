@@ -3,8 +3,7 @@ import { Avatar, Box, Card, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import LikeButton from "./LikeButton";
 
-export default function SimilarSong(props) {
-    const [song, setSong] = React.useState(props.song);
+export default function SimilarSong({ song, setSong }) {
     let navigate = useNavigate();
 
     const goToSong = (rid) => {
@@ -35,7 +34,7 @@ export default function SimilarSong(props) {
                             </Typography>
                         </Box>
                     </Box>
-                    <Box>
+                    <Box sx={{p:2, pt:3}}>
                         <LikeButton song={song} setSong={setSong}/>
                     </Box>
                 </Box>

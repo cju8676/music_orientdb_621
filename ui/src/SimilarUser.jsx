@@ -34,7 +34,7 @@ export default function SimilarUser({ user, setUser }) {
                             </Typography>
                         </Box>
                     </Box>
-                    <Box>
+                    <Box sx={{p:2, pt:3}}>
                         <FollowButton user={user} setUser={setUser} />
                     </Box>
                 </Box>
